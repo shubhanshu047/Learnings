@@ -6,7 +6,7 @@ export default function Categories() {
     <div>
     <CustomNavbar/>
         
-        Categories page
+        Categories
         </div>
   )
 }
