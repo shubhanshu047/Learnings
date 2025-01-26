@@ -19,7 +19,7 @@
 //   //         console.log("ITEM",item)
 //   //         try {
 //   //           const response = await axios.get(
-//   //             `http://localhost:8080/api/product/${item.id}/image`,
+//   //             `http://localhost:8080/product/${item.id}/image`,
 //   //             { responseType: "blob" }
 //   //           );
 //             // const imageFile = await converUrlToFile(response.data,response.data.imageName)
@@ -46,7 +46,7 @@
 //     const fetchImagesAndUpdateCart = async () => {
 //       try {
     
-//         const response = await axios.get("http://localhost:8080/api/products");
+//         const response = await axios.get("http://localhost:8080/products");
 //         const backendProductIds = response.data.map((product) => product.id);
 
 //         const updatedCartItems = cart.filter((item) => backendProductIds.includes(item.id));
@@ -54,7 +54,7 @@
 //           updatedCartItems.map(async (item) => {
 //             try {
 //               const response = await axios.get(
-//                 `http://localhost:8080/api/product/${item.id}/image`,
+//                 `http://localhost:8080/product/${item.id}/image`,
 //                 { responseType: "blob" }
 //               );
 //               const imageFile = await converUrlToFile(response.data, response.data.imageName);
@@ -136,7 +136,7 @@
 //         );
   
 //         await axios
-//           .put(`http://localhost:8080/api/product/${item.id}`, cartProduct, {
+//           .put(`http://localhost:8080/product/${item.id}`, cartProduct, {
 //             headers: {
 //               "Content-Type": "multipart/form-data",
 //             },
@@ -273,6 +273,7 @@ const Cart = () => {
 
   useEffect(() => {
     const fetchImagesAndUpdateCart = async () => {
+      console.log("Cart", cart);
       try {
         const response = await axios.get("http://localhost:8080/products");
         const backendProductIds = response.data.map((product) => product.id);
@@ -404,11 +405,7 @@ const Cart = () => {
                   style={{ display: "flex", alignContent: "center" }}
                   key={item.id}
                 >
-                  <div className="buttons">
-                    <div className="buttons-liked">
-                      <i className="bi bi-heart"></i>
-                    </div>
-                  </div>
+                 
                   <div>
                     <img
                       src={item.imageUrl}
@@ -477,6 +474,7 @@ const Cart = () => {
         handleCheckout={handleCheckout}
       />
     </div>
+
   );
 };
 

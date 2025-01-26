@@ -14,7 +14,7 @@ const UpdateProduct = () => {
     price: "",
     category: "",
     releaseDate: "",
-    available: false,
+    productAvailable: false,
     stockQuantity: "",
   });
 
@@ -58,7 +58,7 @@ const UpdateProduct = () => {
     console.log("images", image)
     console.log("productsdfsfsf", updateProduct)
     const updatedProduct = new FormData();
-    updatedProduct.append("imageFile", image);
+    updatedProduct.append("imagefile", image);
     updatedProduct.append(
       "product",
       new Blob([JSON.stringify(updateProduct)], { type: "application/json" })
@@ -98,10 +98,10 @@ const UpdateProduct = () => {
   
 
   return (
-    <div className="update-product-container">
-      <div className="center-container">
+    <div className="update-product-container" >
+      <div className="center-container"style={{marginTop:"7rem"}}>
         <h1>Update Product</h1>
-        <form className="row g-3 pt-5" onSubmit={handleSubmit}>
+        <form className="row g-3 pt-1" onSubmit={handleSubmit}>
           <div className="col-md-6">
             <label className="form-label">
               <h6>Name</h6>
@@ -221,11 +221,11 @@ const UpdateProduct = () => {
               <input
                 className="form-check-input"
                 type="checkbox"
-                name="available"
+                name="productAvailable"
                 id="gridCheck"
-                checked={updateProduct.available}
+                checked={updateProduct.productAvailable}
                 onChange={(e) =>
-                  setUpdateProduct({ ...updateProduct, available: e.target.checked })
+                  setUpdateProduct({ ...updateProduct, productAvailable: e.target.checked })
                 }
               />
               <label className="form-check-label">Product Available</label>
