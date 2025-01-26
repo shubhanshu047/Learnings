@@ -83,4 +83,14 @@ public class ProductService {
 		}
 		return new ResponseEntity<>("Product deleted successfully",HttpStatus.OK);
 	}
+	
+	public ResponseEntity<?> searchProduct(String key){
+		List<Products> pro = H2Repo.SearchProduct(key);
+		if(pro!=null) {			
+			return new ResponseEntity<>(pro, HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>("",HttpStatus.OK);
+		}
+	}
 }

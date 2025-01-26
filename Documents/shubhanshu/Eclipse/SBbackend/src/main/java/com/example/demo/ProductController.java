@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class ProductController {
 
 	@Autowired
@@ -54,7 +55,7 @@ public class ProductController {
 	}
 
 	
-	@PostMapping("/addproduct")
+	@PostMapping("/product")
 	public ResponseEntity<?> addkaro(@RequestPart Products product, @RequestPart MultipartFile imagefile) throws IOException {
 //		return ps.addProduct(pd);
 		Products p = ps.addProduct(product, imagefile);
@@ -84,5 +85,10 @@ public class ProductController {
 	@DeleteMapping("/product/{productid}")
 	public ResponseEntity<String> deletekaro(@PathVariable int productid) {
 		return ps.deleteProduct(productid);
+	}
+	
+	@GetMapping("/products/search")
+	public ResponseEntity<?> searchProducts(@RequestParam String key){
+			return ps.searchProduct(key);
 	}
 }
