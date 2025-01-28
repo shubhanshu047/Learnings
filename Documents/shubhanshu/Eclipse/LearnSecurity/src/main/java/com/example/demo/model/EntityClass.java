@@ -14,14 +14,18 @@ public class EntityClass {
 	 	@Id
 	    @GeneratedValue
 	    private int id;
-
-	    @Column(name = "username") // Specify the column name here if needed
 	    private String username;
-
-	    @Column(name = "password") // Specify the column name here if needed
 	    private String password;
-	    
+	    private String hashedpassword;
 	    int rollno;
+
+		public String getHashedpassword() {
+			return hashedpassword;
+		}
+
+		public void setHashedpassword(String hashedpassword) {
+			this.hashedpassword = hashedpassword;
+		}
 
 		@Override
 		public String toString() {
@@ -29,12 +33,13 @@ public class EntityClass {
 					+ "]";
 		}
 
-		public EntityClass(int id, String username, String password, int rollno) {
+		public EntityClass(int id, String username, String password, int rollno, String hashedpassword) {
 			super();
 			this.id = id;
 			this.username = username;
 			this.password = password;
 			this.rollno = rollno;
+			this.hashedpassword = hashedpassword;
 		}
 
 		public EntityClass() {

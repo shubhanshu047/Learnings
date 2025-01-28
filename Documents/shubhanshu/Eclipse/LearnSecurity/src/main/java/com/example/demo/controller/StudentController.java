@@ -1,17 +1,23 @@
 package com.example.demo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.model.EntityClass;
+import com.example.demo.service.ServiceClass;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 public class StudentController {
 
+	
 	@GetMapping("/home")
 	public String gethome(HttpServletRequest http) {
 		return "This is home page "+http.getSession().getId();

@@ -12,27 +12,23 @@ public class MyUserPrincipal implements UserDetails {
 	private EntityClass s;
 	
 	public MyUserPrincipal(EntityClass s) {
-		System.out.println("hiii-----1");
-		System.out.println(s.toString());;
+		System.out.println(s.toString());
 		this.s=s;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
 		return Collections.singleton(new SimpleGrantedAuthority("User"));
 	}
 
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
 		System.out.println("username - "+s.getUsername());
 		return s.getUsername();
 	}
 	
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
 		System.out.println("password - "+s.getPassword());
 		return s.getPassword();
 	}

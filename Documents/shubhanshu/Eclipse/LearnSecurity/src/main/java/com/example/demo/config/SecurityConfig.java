@@ -15,6 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
@@ -36,6 +37,14 @@ public class SecurityConfig {
 		return sec.build();		 																							// return a filter chain
 	}
 	
+	@Bean
+	public AuthenticationProvider Myauthprovider() {
+		DaoAuthenticationProvider pro = new DaoAuthenticationProvider();
+		pro.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+//		pro.setPasswordEncoder(new BCryptPasswordEncoder(12));
+		pro.setUserDetailsService(userDetailsService);
+		return pro;
+	}
 	
 //	@Bean
 //	public UserDetailsService UserDetailsService() {
@@ -48,11 +57,4 @@ public class SecurityConfig {
 //		return new InMemoryUserDetailsManager(ud);
 //	}
 	
-	@Bean
-	public AuthenticationProvider Myauthprovider() {
-		DaoAuthenticationProvider pro = new DaoAuthenticationProvider();
-		pro.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
-		pro.setUserDetailsService(userDetailsService);
-		return pro;
-	}
 }
