@@ -14,6 +14,10 @@ public class MyController {
 	@Autowired
 	ServiceClass sc;
 	
+	@PostMapping("/login")
+	public String loginuser(@RequestBody EntityClass user) {
+		return sc.verify(user);
+	}	
 	@PostMapping("/register")
 	public String registeruser(@RequestBody EntityClass user) {
 		return sc.adduser(user);

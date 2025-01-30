@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 @Table(name="springsec")
 public class EntityClass {
 	 	@Id
-	    @GeneratedValue
+	 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private int id;
 	    private String username;
 	    private String password;
@@ -33,9 +33,8 @@ public class EntityClass {
 					+ "]";
 		}
 
-		public EntityClass(int id, String username, String password, int rollno, String hashedpassword) {
-			super();
-			this.id = id;
+		public EntityClass(String username, String password, int rollno, String hashedpassword) {
+
 			this.username = username;
 			this.password = password;
 			this.rollno = rollno;
@@ -43,16 +42,16 @@ public class EntityClass {
 		}
 
 		public EntityClass() {
-			super();
+
 		}
 
 		public int getId() {
 			return id;
 		}
 
-		public void setId(int id) {
-			this.id = id;
-		}
+//		public void setId(int id) {
+//			this.id = id;
+//		}
 
 		public String getUsername() {
 			return username;

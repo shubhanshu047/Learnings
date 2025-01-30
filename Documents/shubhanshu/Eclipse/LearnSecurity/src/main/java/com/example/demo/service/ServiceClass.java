@@ -1,6 +1,9 @@
 package com.example.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,9 @@ public class ServiceClass {
 	@Autowired
 	UserRepo rp;
 	
+	@Autowired
+	AuthenticationManager AuthManager;
+	
 	private BCryptPasswordEncoder bc = new BCryptPasswordEncoder(12);			// 12 is the strength.. means number of rounds in encrypting.
 	
 	public String adduser(EntityClass user) {
@@ -28,6 +34,17 @@ public class ServiceClass {
 		}
 		else {
 			return "User not registered";
+		}
+	}
+	
+	public String verify(EntityClass user) {
+		Authentication authentication = AuthManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+		
+		if(authentication.isAuthenticated()) {			
+			return JWTservice.getMyToken(user.getUsername());
+		}
+		else {
+			return "failure";
 		}
 	}
 	
