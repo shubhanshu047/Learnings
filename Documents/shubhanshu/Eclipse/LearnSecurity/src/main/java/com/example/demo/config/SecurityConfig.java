@@ -12,8 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-
-
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,6 +25,9 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 public class SecurityConfig {
 
 	@Autowired
+    private JwtFilter jwtFilter;
+	
+	@Autowired
 	private UserDetailsService userDetailsService;
 	
 	@Bean																													// below method is a bean providing security filters
@@ -35,14 +37,14 @@ public class SecurityConfig {
 //		sec.formLogin(Customizer.withDefaults());																			// show a login form on every request
 		sec.httpBasic(Customizer.withDefaults());																			// show the username password validation
 		sec.sessionManagement(Customizer -> Customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));				// Mention wether the user session will be stateless or stateful
-		
-		return sec.build();		 																							// return a filter chain
+		sec.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+		return sec.build();		 								   															// return a filter chain
 	}
 	
 	@Bean
 	public AuthenticationProvider Myauthprovider() {
 		DaoAuthenticationProvider pro = new DaoAuthenticationProvider();
-		pro.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+//		pro.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
 		pro.setPasswordEncoder(new BCryptPasswordEncoder(12));
 		pro.setUserDetailsService(userDetailsService);
 		return pro;
