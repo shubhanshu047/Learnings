@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.Services;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.example.demo.Model.Products;
+import com.example.demo.Repositories.H2Repository;
 
 @RestController
 public class ProductService {

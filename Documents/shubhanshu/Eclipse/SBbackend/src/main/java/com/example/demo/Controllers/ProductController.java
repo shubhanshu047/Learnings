@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.Controllers;
 import java.io.IOException;
 import java.util.List;
 
@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.example.demo.Model.Products;
+import com.example.demo.Services.ProductService;
 
 @RestController
 @CrossOrigin(origins = "*")
