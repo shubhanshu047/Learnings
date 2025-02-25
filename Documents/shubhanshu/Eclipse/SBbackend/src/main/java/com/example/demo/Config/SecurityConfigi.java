@@ -10,17 +10,19 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfigi {
-
+public class SecurityConfigi{
+	
 	@Autowired
 	UserDetailsService UDS;
 	
 	@Bean
-	private SecurityFilterChain mychain(HttpSecurity http) throws Exception {
+	public SecurityFilterChain myChain(HttpSecurity http) throws Exception {
 		http.csrf(Customizer->Customizer.disable());
 		http.authorizeHttpRequests(Customizer->Customizer.requestMatchers("login","register").permitAll().anyRequest().authenticated());
 		http.httpBasic(Customizer.withDefaults());
@@ -30,12 +32,12 @@ public class SecurityConfigi {
 	}
 	
 	@Bean
-	private AuthenticationProvider authProvider() {
+	public AuthenticationProvider myAuthPro() {
 		DaoAuthenticationProvider dao = new DaoAuthenticationProvider();
 		dao.setUserDetailsService(UDS);
-		dao.setPasswordEncoder(null);
+//		dao.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+		dao.setPasswordEncoder(new BCryptPasswordEncoder(12));
 		return dao;
 	}
-	
 	
 }

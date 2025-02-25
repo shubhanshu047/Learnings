@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.Model.Products;
-import com.example.demo.Repositories.H2Repository;
+import com.example.demo.Repositories.ProductsRepository;
 
 @RestController
 public class ProductService {
@@ -19,7 +19,7 @@ public class ProductService {
 //			new Products(102,"mosammi",150)));
 	
 	@Autowired
-	H2Repository H2Repo;
+	ProductsRepository H2Repo;
 	
 	public List getProducts(){
 //		return pl;

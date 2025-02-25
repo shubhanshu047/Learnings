@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.example.demo.Model.Products;
 
-public interface H2Repository extends JpaRepository<Products,Integer> {
+public interface ProductsRepository extends JpaRepository<Products,Integer> {
 
 //	@Query("select p from Products p where LOWER(p.brand) like LOWER(CONCAT('%', :key ,'%')) or LOWER(p.name) like LOWER(CONCAT('%', :key ,'%')) or LOWER(p.description) like LOWER(CONCAT('%', :key ,'%')) or LOWER(p.category) like LOWER(CONCAT('%', :key ,'%')) or LOWER(p.price) like LOWER(CONCAT('%', :key ,'%'))")
 	@Query("select p from Products p  where LOWER(p.brand) like LOWER(CONCAT('%', :key ,'%')) or LOWER(p.name) like LOWER(CONCAT('%', :key ,'%'))"+
