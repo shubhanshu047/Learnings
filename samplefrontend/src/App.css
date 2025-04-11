@@ -51,6 +51,25 @@
   background-color: var(--root_background) !important;
 }  
 
+/*--------------------------Login----------------------*/
+.login-page-row {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* to center vertically */
+}
+
+/*--------------------------Register----------------------*/
+.register-page-row {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* to center vertically */
+}
+
+
 /* <.............................................NAVBAR DROPDOWN......................................> */
 .navbar-brand {
   font-size: 1.5rem;
