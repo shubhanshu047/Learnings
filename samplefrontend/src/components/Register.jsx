@@ -16,7 +16,7 @@ const Register = () => {
   // useEffect(() => {
   //   const token = sessionStorage.getItem("token");
   //   if (token) {
-  //     navigate("/home"); // 🔁 Change path if your Home route differs
+  //     navigate("/"); // 🔁 Change path if your Home route differs
   //   }
   // }, [navigate]);
 
@@ -24,7 +24,7 @@ const Register = () => {
       // const token = sessionStorage.getItem("token");
       // if (token) {
       //   localStorage.setItem("theme", "dark-theme");
-      //   navigate("/home");
+      //   navigate("/");
       // }
       // localStorage.setItem("theme", "light-theme");
     }, [navigate]);

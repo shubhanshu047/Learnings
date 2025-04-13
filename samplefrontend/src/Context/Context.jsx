@@ -1,5 +1,6 @@
 import axios from "../axios";
-import { useState, useEffect, createContext } from "react";
+import { useState, useEffect, createContext, useCallback } from "react";
+import api from "../components/axiosConfig";
 
 const AppContext = createContext({
   data: [],
@@ -16,7 +17,7 @@ export const AppProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [isError, setIsError] = useState("");
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
-
+  const [temp,setTemp] = useState(false);
 
   const addToCart = (product) => {
     const existingProductIndex = cart.findIndex((item) => item.id === product.id);
@@ -45,20 +46,24 @@ export const AppProvider = ({ children }) => {
 
   const refreshData = async () => {
     try {
-      const response = await axios.get("/products");
+      const response = await api.get("/products");
       setData(response.data);
     } catch (error) {
       setIsError(error.message);
     }
   };
+  
 
   const clearCart =() =>{
     setCart([]);
   }
   
-  useEffect(() => {
-    refreshData();
-  }, []);
+  // useEffect(() => {
+  //   if(!temp){
+  //     refreshData();
+  //     setTemp(true);
+  //   }
+  // }, []);
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));

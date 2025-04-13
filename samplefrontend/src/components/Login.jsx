@@ -14,7 +14,7 @@ const Login = () => {
     const token = sessionStorage.getItem("token");
     if (token) {
       // localStorage.setItem("theme", "dark-theme");
-      navigate("/home");
+      navigate("/");
     }
     // localStorage.setItem("theme", "light-theme");
   }, [navigate]);
@@ -37,7 +37,7 @@ const Login = () => {
           
           const token = res.data.token;
           sessionStorage.setItem("token", token);
-          navigate("/home");
+          navigate("/");
         } else {
           alert(res.data.message);
         }

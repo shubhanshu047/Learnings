@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Home from "./Home"
 import axios from "axios";
+import api from "./axiosConfig";
 // import { json } from "react-router-dom";
 // import { BiSunFill, BiMoon } from "react-icons/bi";
 
@@ -22,7 +23,7 @@ const Navbar = ({ onSelectCategory, onSearch }) => {
 
   const fetchData = async (value) => {
     try {
-      const response = await axios.get("http://localhost:8080/products");
+      const response = await api.get("/products");
       setSearchResults(response.data);
       console.log(response.data);
     } catch (error) {

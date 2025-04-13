@@ -1,34 +1,33 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import AppContext from "../Context/Context";
 import unplugged from "../assets/unplugged.png"
+import api from "./axiosConfig";
 
 const Home = ({ selectedCategory }) => {
   const { data, isError, addToCart, refreshData } = useContext(AppContext);
   const [products, setProducts] = useState([]);
-  const [isDataFetched, setIsDataFetched] = useState(false);
 
   useEffect(() => {
-    if (!isDataFetched) {
       refreshData();
-      setIsDataFetched(true);
-    }
-  }, [refreshData, isDataFetched]);
+  }, []);
 
   useEffect(() => {
+
     if (data && data.length > 0) {
       const fetchImagesAndUpdateProducts = async () => {
         const updatedProducts = await Promise.all(
           data.map(async (product) => {
             try {
-              const response = await axios.get(
-                `http://localhost:8080/product/${product.id}/image`,
+              const response = await api.get(
+                `/product/${product.id}/image`,
                 { responseType: "blob" }
               );
-              const imageUrl = URL.createObjectURL(response.data);
-              return { ...product, imageUrl };
-            } catch (error) {
+                const imageUrl = URL.createObjectURL(response.data);
+                return { ...product, imageUrl };
+              } catch (error) {
+              console.log("2");
               console.error(
                 "Error fetching image for product ID:",
                 product.id,
@@ -152,7 +151,7 @@ const Home = ({ selectedCategory }) => {
                         className="card-text"
                         style={{ fontWeight: "600", fontSize: "1.1rem",marginBottom:'5px' }}
                       >
-                        <i class="bi bi-currency-rupee"></i>
+                        <i className="bi bi-currency-rupee"></i>
                         {price}
                       </h5>
                     </div>
