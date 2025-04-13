@@ -42,7 +42,7 @@ public class JWTservice {
 				.add(claim)
 				.subject(username)
 				.issuedAt(new Date(System.currentTimeMillis()))
-				.expiration(new Date(System.currentTimeMillis() + 60 * 30 * 30))
+				.expiration(new Date(System.currentTimeMillis() + 1000 * 30 * 30))
 				.and()
 				.signWith(mykey())
 				.compact();
@@ -64,7 +64,7 @@ public class JWTservice {
 	}
 
 	public <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
-		
+		System.out.println(mykey());
 		final Claims claims = Jwts.parser()
 				.verifyWith(mykey())
 				.build()
