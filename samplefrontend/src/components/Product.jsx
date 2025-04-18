@@ -4,6 +4,7 @@ import { useState } from "react";
 import AppContext from "../Context/Context";
 import axios from "../axios";
 import UpdateProduct from "./UpdateProduct";
+import api from "./axiosConfig";
 const Product = () => {
   const { id } = useParams();
   const { data, addToCart, removeFromCart, cart, refreshData } =
@@ -15,8 +16,8 @@ const Product = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/product/${id}`
+        const response = await api.get(
+          `/product/${id}`
         );
         setProduct(response.data);
         if (response.data.imageName) {
@@ -28,8 +29,8 @@ const Product = () => {
     };
 
     const fetchImage = async () => {
-      const response = await axios.get(
-        `http://localhost:8080/product/${id}/image`,
+      const response = await api.get(
+        `/product/${id}/image`,
         { responseType: "blob" }
       );
       setImageUrl(URL.createObjectURL(response.data));
@@ -40,11 +41,10 @@ const Product = () => {
 
   const deleteProduct = async () => {
     try {
-      await axios.delete(`http://localhost:8080/product/${id}`);
+      await api.delete(`/product/${id}`);
       removeFromCart(id);
-      console.log("Product deleted successfully");
       alert("Product deleted successfully");
-      refreshData();
+      await refreshData();
       navigate("/");
     } catch (error) {
       console.error("Error deleting product:", error);
@@ -84,7 +84,7 @@ const Product = () => {
             </span>
             <p className="release-date" style={{ marginBottom: "2rem" }}>
               
-              <h6>Listed : <span> <i> {new Date(product.releaseDate).toLocaleDateString()}</i></span></h6>
+              Listed : <span> <i> {new Date(product.releaseDate).toLocaleDateString()}</i></span>
               {/* <i> {new Date(product.releaseDate).toLocaleDateString()}</i> */}
             </p>
             </div>
@@ -104,10 +104,10 @@ const Product = () => {
             </span>
             <button
               className={`cart-btn ${
-                !product.productAvailable ? "disabled-btn" : ""
+                !product.available ? "disabled-btn" : ""
               }`}
               onClick={handlAddToCart}
-              disabled={!product.productAvailable}
+              disabled={!product.available}
               style={{
                 padding: "1rem 2rem",
                 fontSize: "1rem",
@@ -119,7 +119,7 @@ const Product = () => {
                 marginBottom: "1rem",
               }}
             >
-              {product.productAvailable ? "Add to cart" : "Out of Stock"}
+              {product.available ? "Add to cart" : "Out of Stock"}
             </button>
             <h6 style={{ marginBottom: "1rem" }}>
               Stock Available :{" "}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, Container, Alert } from "react-bootstrap";
+import api from "./axiosConfig";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -11,14 +12,6 @@ const Register = () => {
   const [Age, setAge] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  // 🔁 If token already in sessionStorage, redirect to Home
-  // useEffect(() => {
-  //   const token = sessionStorage.getItem("token");
-  //   if (token) {
-  //     navigate("/"); // 🔁 Change path if your Home route differs
-  //   }
-  // }, [navigate]);
 
    useEffect(() => {
       // const token = sessionStorage.getItem("token");
@@ -33,21 +26,7 @@ const Register = () => {
     e.preventDefault();
 
     try {
-
-      // axios.post('/register', data, {
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     'Accept': 'application/json'
-      //   }
-      // })
-      // .then(response => {
-      //   console.log('Success:', response.data);
-      // })
-      // .catch(error => {
-      //   console.error('Error:', error);
-      // });
-
-      const response = await axios.post("http://localhost:8080/register", {
+      const response = await api.post("/register", {
         username: username,
         password: password,
         age: Age,
@@ -59,7 +38,8 @@ const Register = () => {
       }).then((res) => {
         console.log(res.data);
         if (res.data.success) {
-          alert(res.data.message);
+          alert("You are registered successfully");
+          navigate("/login");
         } else {
           alert(res.data.message);
         }

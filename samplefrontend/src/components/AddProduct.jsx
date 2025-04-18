@@ -11,7 +11,7 @@ const AddProduct = () => {
     category: "",
     stockQuantity: "",
     releaseDate: "",
-    productAvailable: false,
+    available: false,
   });
   const [image, setImage] = useState(null);
 
@@ -27,11 +27,17 @@ const AddProduct = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
+
+    const updatedProduct = {
+      ...product,
+      category: product.category ? product.category.trim().toLowerCase() : ""
+    };
+
     const formData = new FormData();
     formData.append("imagefile", image);
     formData.append(
       "product",
-      new Blob([JSON.stringify(product)], { type: "application/json" })
+      new Blob([JSON.stringify(updatedProduct)], { type: "application/json" })
     );
 
     const token = sessionStorage.getItem("token");
@@ -67,6 +73,7 @@ const AddProduct = () => {
             onChange={handleInputChange}
             value={product.name}
             name="name"
+            required
           />
         </div>
         <div className="col-md-6">
@@ -81,6 +88,7 @@ const AddProduct = () => {
             value={product.brand}
             onChange={handleInputChange}
             id="brand"
+            required
           />
         </div>
         <div className="col-12">
@@ -95,6 +103,7 @@ const AddProduct = () => {
             name="description"
             onChange={handleInputChange}
             id="description"
+            required
           />
         </div>
         <div className="col-5">
@@ -109,6 +118,7 @@ const AddProduct = () => {
             value={product.price}
             name="price"
             id="price"
+            required
           />
         </div>
      
@@ -122,6 +132,7 @@ const AddProduct = () => {
             onChange={handleInputChange}
             name="category"
             id="category"
+            required
           >
             <option value="">Select category</option>
             <option value="Laptop">Laptop</option>
@@ -146,6 +157,7 @@ const AddProduct = () => {
             name="stockQuantity"
             // value={`${stockAlert}/${stockQuantity}`}
             id="stockQuantity"
+            required
           />
         </div>
         <div className="col-md-4">
@@ -159,6 +171,7 @@ const AddProduct = () => {
             name="releaseDate"
             onChange={handleInputChange}
             id="releaseDate"
+            required
           />
         </div>
         {/* <input className='image-control' type="file" name='file' onChange={(e) => setProduct({...product, image: e.target.files[0]})} />
@@ -171,6 +184,7 @@ const AddProduct = () => {
             className="form-control"
             type="file"
             onChange={handleImageChange}
+            required
           />
         </div>
         <div className="col-12">
@@ -180,9 +194,9 @@ const AddProduct = () => {
               type="checkbox"
               name="productAvailable"
               id="gridCheck"
-              checked={product.productAvailable}
+              // checked={product.productAvailable}
               onChange={(e) =>
-                setProduct({ ...product, productAvailable: e.target.checked })
+                setProduct({ ...product, available: e.target.checked })
               }
             />
             <label className="form-check-label">Product Available</label>

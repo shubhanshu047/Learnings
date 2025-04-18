@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import api from "./axiosConfig";
 
 const UpdateProduct = () => {
   const { id } = useParams();
@@ -11,31 +12,49 @@ const UpdateProduct = () => {
     name: "",
     description: "",
     brand: "",
-    price: "",
+    price: 0,
     category: "",
     releaseDate: "",
-    productAvailable: false,
+    available: false,
     stockQuantity: "",
   });
+
+  // useEffect(() => {
+  //   console.log("updateProduct state now:", updateProduct);
+  // }, [updateProduct]);
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/product/${id}`
+        const response = await api.get(
+          `/product/${id}`
         );
 
         setProduct(response.data);
-      
-        const responseImage = await axios.get(
-          `http://localhost:8080/product/${id}/image`,
-          { responseType: "blob" }
-        );
-       const imageFile = await converUrlToFile(responseImage.data,response.data.imageName)
-        setImage(imageFile);     
-        setUpdateProduct(response.data);
+        console.log("response.data - ",response.data);
+        try{
+          const responseImage = await api.get(
+            `/product/${id}/image`,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+              },
+              responseType: "blob" 
+            }
+          );
+          const imageFile = await converUrlToFile(responseImage.data,response.data.imageName)
+          setImage(imageFile);     
+        }catch(error){
+          console.error("Error fetching product image: ", error);
+        }
+       console.log("gonna set...");
+       setUpdateProduct(response.data);
+       console.log("set done...");
+       console.log(product);
+       console.log(updateProduct);
       } catch (error) {
-        console.error("Error fetching product:", error);
+        console.error("Error fetching product: ", error);
       }
     };
 
@@ -46,7 +65,10 @@ const UpdateProduct = () => {
     console.log("image Updated", image);
   }, [image]);
 
-
+  // useEffect(() => {
+  //   console.log("updateProduct state now:", updateProduct);
+  // }, [updateProduct]);
+  
 
   const converUrlToFile = async(blobData, fileName) => {
     const file = new File([blobData], fileName, { type: blobData.type });
@@ -63,13 +85,13 @@ const UpdateProduct = () => {
       "product",
       new Blob([JSON.stringify(updateProduct)], { type: "application/json" })
     );
-  
 
-  console.log("formData : ", updatedProduct)
-    axios
-      .put(`http://localhost:8080/product/${id}`, updatedProduct, {
+      console.log("formData : ", ...updatedProduct)
+      api
+      .put(`/product/${id}`, updatedProduct, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
       })
       .then((response) => {
@@ -112,7 +134,7 @@ const UpdateProduct = () => {
               placeholder={product.name}
               value={updateProduct.name}
               onChange={handleChange}
-              name="name"
+              name="name" required
             />
           </div>
           <div className="col-md-6">
@@ -126,7 +148,7 @@ const UpdateProduct = () => {
               placeholder={product.brand}
               value={updateProduct.brand}
               onChange={handleChange}
-              id="brand"
+              id="brand" required
             />
           </div>
           <div className="col-12">
@@ -140,7 +162,7 @@ const UpdateProduct = () => {
               name="description"
               onChange={handleChange}
               value={updateProduct.description}
-              id="description"
+              id="description" required
             />
           </div>
           <div className="col-5">
@@ -154,7 +176,7 @@ const UpdateProduct = () => {
               value={updateProduct.price}
               placeholder={product.price}
               name="price"
-              id="price"
+              id="price" required
             />
           </div>
           <div className="col-md-6">
@@ -163,10 +185,10 @@ const UpdateProduct = () => {
             </label>
             <select
               className="form-select"
-              value={updateProduct.category}
+              value={product.category}
               onChange={handleChange}
               name="category"
-              id="category"
+              id="category" required
             >
               <option value="">Select category</option>
               <option value="laptop">Laptop</option>
@@ -189,7 +211,7 @@ const UpdateProduct = () => {
               placeholder={product.stockQuantity}
               value={updateProduct.stockQuantity}
               name="stockQuantity"
-              id="stockQuantity"
+              id="stockQuantity" required
             />
           </div>
           <div className="col-md-8">
@@ -206,6 +228,7 @@ const UpdateProduct = () => {
                 padding: "5px",
                 margin: "0",
               }}
+              required
             />
             <input
               className="form-control"
@@ -213,7 +236,7 @@ const UpdateProduct = () => {
               onChange={handleImageChange}
               placeholder="Upload image"
               name="imageUrl"
-              id="imageUrl"
+              id="imageUrl" 
             />
           </div>
           <div className="col-12">
@@ -223,9 +246,9 @@ const UpdateProduct = () => {
                 type="checkbox"
                 name="productAvailable"
                 id="gridCheck"
-                checked={updateProduct.productAvailable}
+                checked={updateProduct.available}
                 onChange={(e) =>
-                  setUpdateProduct({ ...updateProduct, productAvailable: e.target.checked })
+                  setUpdateProduct({ ...updateProduct, available: e.target.checked })
                 }
               />
               <label className="form-check-label">Product Available</label>

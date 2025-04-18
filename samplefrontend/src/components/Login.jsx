@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, Container, Alert } from "react-bootstrap";
+import api from "./axiosConfig";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8080/login", {
+      const response = await api.post("/login", {
         username: username,
         password: password,
       },{
@@ -43,12 +44,11 @@ const Login = () => {
         }
       })
       .catch((error) => {
-        console.error("Registration error:", error);
+        console.error("Login error:", error);
         alert(res.data.message);
       });
     } catch (err) {
-        console.error("Registration error:", error);
-        alert("Unable to register...");
+        console.error("Login error:", error);
     }
   };
 

@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import Home from "./Home"
 import axios from "axios";
 import api from "./axiosConfig";
+import { useNavigate } from "react-router-dom";
 // import { json } from "react-router-dom";
 // import { BiSunFill, BiMoon } from "react-icons/bi";
 
 const Navbar = ({ onSelectCategory, onSearch }) => {
+  const navigate = useNavigate();
   const getInitialTheme = () => {
     const storedTheme = localStorage.getItem("theme");
     return storedTheme ? storedTheme : "light-theme";
@@ -36,8 +38,8 @@ const Navbar = ({ onSelectCategory, onSearch }) => {
     if (value.length >= 1) {
       setShowSearchResults(true)
     try {
-      const response = await axios.get(
-        `http://localhost:8080/products/search?key=${value}`
+      const response = await api.get(
+        `/products/search?key=${value}`
       );
       setSearchResults(response.data);
       setNoResults(response.data.length === 0);
@@ -52,35 +54,12 @@ const Navbar = ({ onSelectCategory, onSearch }) => {
     }
   };
 
-  
-  // const handleChange = async (value) => {
-  //   setInput(value);
-  //   if (value.length >= 1) {
-  //     setShowSearchResults(true);
-  //     try {
-  //       let response;
-  //       if (!isNaN(value)) {
-  //         // Input is a number, search by ID
-  //         response = await axios.get(`http://localhost:8080/products/search?id=${value}`);
-  //       } else {
-  //         // Input is not a number, search by keyword
-  //         response = await axios.get(`http://localhost:8080/products/search?keyword=${value}`);
-  //       }
-
-  //       const results = response.data;
-  //       setSearchResults(results);
-  //       setNoResults(results.length === 0);
-  //       console.log(results);
-  //     } catch (error) {
-  //       console.error("Error searching:", error.response ? error.response.data : error.message);
-  //     }
-  //   } else {
-  //     setShowSearchResults(false);
-  //     setSearchResults([]);
-  //     setNoResults(false);
-  //   }
-  // };
-
+  const handleLogout = () => {
+    alert("You are logged out.");
+    setTheme("light-theme");
+    sessionStorage.removeItem("token");
+    navigate("/login");
+  };
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
     onSelectCategory(category);
@@ -96,6 +75,7 @@ const Navbar = ({ onSelectCategory, onSearch }) => {
   }, [theme]);
 
   const categories = [
+    "All",
     "Laptop",
     "Headphone",
     "Mobile",
@@ -108,9 +88,11 @@ const Navbar = ({ onSelectCategory, onSearch }) => {
       <header>
         <nav className="navbar navbar-expand-lg fixed-top">
           <div className="container-fluid">
-            <a className="navbar-brand" href="https://telusko.com/">
-              Telusko
-            </a>
+            <div>
+              <a className="navbar-brand" href="https://telusko.com/">
+                Logo
+              </a>
+            </div>
             <button
               className="navbar-toggler"
               type="button"
@@ -163,7 +145,16 @@ const Navbar = ({ onSelectCategory, onSearch }) => {
                   </ul>
                 </li>
 
-                <li className="nav-item"></li>
+                <li className="nav-item"><button className="btn btn-primary" type="button" onClick={()=>handleLogout()} style={{
+                margin: "0.5rem 0.5rem",
+                padding: "0.2rem 0.5rem",
+                fontSize: "1rem",
+                backgroundColor: "#dc3545",
+                color: "white",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+              }}>Logout</button></li>
               </ul>
               <button className="theme-btn" onClick={() => toggleTheme()}>
                 {theme === "dark-theme" ? (
@@ -189,8 +180,8 @@ const Navbar = ({ onSelectCategory, onSearch }) => {
                   aria-label="Search"
                   value={input}
                   onChange={(e) => handleChange(e.target.value)}
-                  onFocus={() => setSearchFocused(true)} // Set searchFocused to true when search bar is focused
-                  onBlur={() => setSearchFocused(false)} // Set searchFocused to false when search bar loses focus
+                  onFocus={() => setSearchFocused(true)} 
+                  onBlur={() => setSearchFocused(false)} 
                 />
                 {showSearchResults && (
                   <ul className="list-group">

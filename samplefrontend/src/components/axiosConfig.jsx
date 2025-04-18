@@ -24,7 +24,7 @@ api.interceptors.response.use(
     err=>{
         if(err.response?.status===401){
             sessionStorage.removeItem("token");
-            alert("Session expired, please login again");
+            alert("Session expired or wrong username or password");
             window.location.href = "/login";
         }
         return Promise.reject(err);
