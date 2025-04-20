@@ -37,11 +37,9 @@ export const AppProvider = ({ children }) => {
   };
 
   const removeFromCart = (productId) => {
-    // console.log("productID",productId)
     const updatedCart = cart.filter((item) => item.id !== productId);
     setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
-    // console.log("CART",cart)
   };
 
   const refreshData = async () => {

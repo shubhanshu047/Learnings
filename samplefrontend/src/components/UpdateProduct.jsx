@@ -31,7 +31,6 @@ const UpdateProduct = () => {
         );
 
         setProduct(response.data);
-        console.log("response.data - ",response.data);
         try{
           const responseImage = await api.get(
             `/product/${id}/image`,
@@ -48,27 +47,14 @@ const UpdateProduct = () => {
         }catch(error){
           console.error("Error fetching product image: ", error);
         }
-       console.log("gonna set...");
        setUpdateProduct(response.data);
-       console.log("set done...");
-       console.log(product);
-       console.log(updateProduct);
       } catch (error) {
         console.error("Error fetching product: ", error);
       }
     };
 
     fetchProduct();
-  }, [id]);
-
-  useEffect(() => {
-    console.log("image Updated", image);
-  }, [image]);
-
-  // useEffect(() => {
-  //   console.log("updateProduct state now:", updateProduct);
-  // }, [updateProduct]);
-  
+  }, [id]);  
 
   const converUrlToFile = async(blobData, fileName) => {
     const file = new File([blobData], fileName, { type: blobData.type });
@@ -77,8 +63,6 @@ const UpdateProduct = () => {
  
   const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log("images", image)
-    console.log("productsdfsfsf", updateProduct)
     const updatedProduct = new FormData();
     updatedProduct.append("imagefile", image);
     updatedProduct.append(
@@ -86,7 +70,6 @@ const UpdateProduct = () => {
       new Blob([JSON.stringify(updateProduct)], { type: "application/json" })
     );
 
-      console.log("formData : ", ...updatedProduct)
       api
       .put(`/product/${id}`, updatedProduct, {
         headers: {
@@ -100,7 +83,7 @@ const UpdateProduct = () => {
       })
       .catch((error) => {
         console.error("Error updating product:", error);
-        console.log("product unsuccessfull update",updateProduct)
+        console.log("Product unsuccessfull update",updateProduct)
         alert("Failed to update product. Please try again.");
       });
   };

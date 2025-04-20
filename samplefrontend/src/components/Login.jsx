@@ -32,7 +32,6 @@ const Login = () => {
           'Content-Type':'application/json'
         }
       }).then((res)=>{
-        console.log(res.data);
         if (res.data.success) {
           alert(res.data.message);
           

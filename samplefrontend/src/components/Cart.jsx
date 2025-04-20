@@ -14,7 +14,6 @@ const Cart = () => {
 
   useEffect(() => {
     const fetchImagesAndUpdateCart = async () => {
-      console.log("Cart", cart);
       try {
         const response = await api.get("/products");
         const backendProductIds = response.data.map((product) => product.id);
@@ -37,7 +36,6 @@ const Cart = () => {
             }
           })
         );
-        console.log("cart",cart)
         setCartItems(cartItemsWithImages);
       } catch (error) {
         console.error("Error fetching product data:", error);

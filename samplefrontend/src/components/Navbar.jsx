@@ -27,7 +27,6 @@ const Navbar = ({ onSelectCategory, onSearch }) => {
     try {
       const response = await api.get("/products");
       setSearchResults(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -43,7 +42,6 @@ const Navbar = ({ onSelectCategory, onSearch }) => {
       );
       setSearchResults(response.data);
       setNoResults(response.data.length === 0);
-      console.log(response.data);
     } catch (error) {
       console.error("Error searching:", error);
     }

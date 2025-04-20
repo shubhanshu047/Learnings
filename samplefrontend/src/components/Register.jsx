@@ -36,7 +36,6 @@ const Register = () => {
           'Content-Type': 'application/json'
         }
       }).then((res) => {
-        console.log(res.data);
         if (res.data.success) {
           alert("You are registered successfully");
           navigate("/login");
