@@ -34,17 +34,16 @@ public class LoginController {
 	@PostMapping("/login")
 	public ResponseEntity<ApiResponse> verify(@RequestBody Users user) {
 		Authentication auth = AuthManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword()));
-		
 		try {
 			if(auth.isAuthenticated()) {
 				String token = JWTservice.getMyToken(user.getUsername()); 
 				return ResponseEntity.ok(new ApiResponse(true, "Logged in", token));
 			}
 			else {
-				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse(false, "Invalid username or password",""));
+				return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse(false, "Invalid username or password",""));
 			}
 		}catch(BadCredentialsException e) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse(false, "Invalid username or password",""));
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse(false, "Invalid username or password",""));			// forbidden is 403
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse(false, "Internal server error", ""));
 		}

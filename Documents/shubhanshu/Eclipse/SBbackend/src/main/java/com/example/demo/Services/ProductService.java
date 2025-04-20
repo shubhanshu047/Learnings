@@ -43,44 +43,28 @@ public class ProductService {
 	}
 	
 	public Products updateProduct(Products pd, MultipartFile imagefile, int id) throws IOException {
-//		int i=0;
-//		for(i=0;i<pl.size();i++) {
-//			if(pd.id == pl.get(i).id) {
-//				break;
-//			}
-//		}	
-//		Products success=null;
-//		if(i==pl.size()) {
-//			pl.add(pd);
-//		}else {
-//			success=pl.set(i, pd);
-//		}
-//		return success != null ? "Update successful" : "Added new";
 		System.out.println(pd.toString());
+		
+		Products existingProduct = H2Repo.findById(id).orElse(null);
+
+	    if (existingProduct == null) {
+	        throw new RuntimeException("Product not found with id: " + id);
+	    }
+		
 		if(imagefile!=null) {			
 			pd.setImageName(imagefile.getOriginalFilename());
 			pd.setImageType(imagefile.getContentType());
 			pd.setImageData(imagefile.getBytes());
-		}
-		pd.setId(1);
-		System.out.println("-----------------");
+		} else {
+	        pd.setImageName(existingProduct.getImageName());
+	        pd.setImageType(existingProduct.getImageType());
+	        pd.setImageData(existingProduct.getImageData());
+	    }
 		System.out.println(pd.toString());
 		return H2Repo.save(pd);
 	}
 	
 	public ResponseEntity<String> deleteProduct(int pid) {
-//		int i=0;
-//		for(i=0;i<pl.size();i++) {
-//			if(pid == pl.get(i).id) {
-//				break;
-//			}
-//		}
-//		if(i<pl.size()) {
-//			pl.remove(i);
-//			return "Deleted successfuly";
-//		}else {
-//			return "Data not found";
-//		}
 		try {			
 			H2Repo.deleteById(pid);
 		}catch(Exception e) {

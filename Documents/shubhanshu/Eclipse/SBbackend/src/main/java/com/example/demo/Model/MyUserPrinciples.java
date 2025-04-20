@@ -25,7 +25,7 @@ public class MyUserPrinciples implements UserDetails {
 
 	@Override
 	public String getPassword() {
-		System.out.println("password - "+user.getPassword());
+		System.out.println("password -- "+user.getPassword());
 		return user.getPassword();
 	}
 
