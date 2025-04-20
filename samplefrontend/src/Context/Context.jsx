@@ -51,7 +51,6 @@ export const AppProvider = ({ children }) => {
     }
   };
   
-
   const clearCart =() =>{
     setCart([]);
   }
