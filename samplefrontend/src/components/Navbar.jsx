@@ -56,7 +56,6 @@ const Navbar = ({ onSelectCategory, onSearch }) => {
 
   const handleLogout = () => {
     alert("You are logged out.");
-    setTheme("light-theme");
     sessionStorage.removeItem("token");
     navigate("/login");
   };
@@ -89,7 +88,7 @@ const Navbar = ({ onSelectCategory, onSearch }) => {
         <nav className="navbar navbar-expand-lg fixed-top">
           <div className="container-fluid">
             <div>
-              <a className="navbar-brand" href="https://telusko.com/">
+              <a className="navbar-brand" href="linkedin.com/in/shubhanshu047">
                 Logo
               </a>
             </div>

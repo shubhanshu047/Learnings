@@ -29,11 +29,15 @@ const Product = () => {
     };
 
     const fetchImage = async () => {
-      const response = await api.get(
-        `/product/${id}/image`,
-        { responseType: "blob" }
-      );
-      setImageUrl(URL.createObjectURL(response.data));
+      try{
+        const response = await api.get(
+          `/product/${id}/image`,
+          { responseType: "blob" }
+        );
+        setImageUrl(URL.createObjectURL(response.data));
+      }catch(error){
+        console.error("Error while fetching product image:", error);
+      }
     };
 
     fetchProduct();
@@ -124,7 +128,7 @@ const Product = () => {
             <h6 style={{ marginBottom: "1rem" }}>
               Stock Available :{" "}
               <i style={{ color: "green", fontWeight: "bold" }}>
-                {product.stockQuantity}
+                {product.available ? product.stockQuantity : "0"}
               </i>
             </h6>
           

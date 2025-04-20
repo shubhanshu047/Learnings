@@ -67,6 +67,7 @@ const Home = ({ selectedCategory }) => {
           gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
           gap: "20px",
           padding: "20px",
+          height:"100vh"
         }}
       >
         {filteredProducts.length === 0 ? (
@@ -75,7 +76,6 @@ const Home = ({ selectedCategory }) => {
             style={{
               display: "flex",
               justifyContent: "center",
-              alignItems: "center",
             }}
           >
             No Products Available
